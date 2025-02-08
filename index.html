@@ -81,27 +81,18 @@
 </div>
 
 <script>
-  var startTime = new Date().getTime();
-  var countDownDate = startTime + (20 * 60 * 60 * 1000);
-
-  const eventStages = [
-    { time: 1 * 60 * 60 * 1000, text: "First Check-In" },
-    { time: 3.5 * 60 * 60 * 1000, text: "Foundation Addressing" },
-    { time: 5 * 60 * 60 * 1000, text: "Evening Check-In" },
-    { time: 6 * 60 * 60 * 1000, text: "Dinner Break" },
-    { time: 8 * 60 * 60 * 1000, text: "Night Check-In" },
-    { time: 9 * 60 * 60 * 1000, text: "Midnight Snacks" },
-    { time: 9.5 * 60 * 60 * 1000, text: "Social Survey" },
-    { time: 12 * 60 * 60 * 1000, text: "Late Night Check-In" },
-    { time: 17 * 60 * 60 * 1000, text: "Breakfast" },
-    { time: 18 * 60 * 60 * 1000, text: "Final Push Alert" },
-    { time: 19 * 60 * 60 * 1000, text: "Last Hour Alert" },
-    { time: 20 * 60 * 60 * 1000, text: "Hackathon Ends" }
-  ];
+  var eventStartTime = new Date();
+  eventStartTime.setHours(15, 0, 0, 0); // Set start time to 3:00 PM IST
 
   function updateTimer() {
-    var now = new Date().getTime();
-    var distance = countDownDate - now;
+    var now = new Date();
+    if (now < eventStartTime) {
+      document.getElementById("demo").innerHTML = "Countdown starts at 3:00 PM ";
+      return;
+    }
+
+    var countDownDate = eventStartTime.getTime() + (20 * 60 * 60 * 1000);
+    var distance = countDownDate - now.getTime();
     var hours = Math.floor(distance / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -111,17 +102,6 @@
     if (distance < 0) {
       clearInterval(x);
       document.getElementById("demo").innerHTML = "Hackathon ends";
-    }
-
-    updateStage(now);
-  }
-
-  function updateStage(now) {
-    var elapsed = now - startTime;
-    for (let i = 0; i < eventStages.length; i++) {
-      if (elapsed >= eventStages[i].time) {
-        document.getElementById("event-stage").innerText = eventStages[i].text;
-      }
     }
   }
 
